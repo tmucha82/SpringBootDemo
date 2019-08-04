@@ -11,12 +11,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @Slf4j
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
-//@DirtiesContext
-//@TestPropertySource(properties = {
-//    "app.topic.example=dummyValue"
-//})
 @SpringBootTest(classes = ValueTest.class)
 @Configuration
 @RunWith(SpringJUnit4ClassRunner.class)
