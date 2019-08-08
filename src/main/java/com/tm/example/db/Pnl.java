@@ -13,4 +13,5 @@ class Pnl {
   private final Integer id;
   private final String name;
   private final String title;
+  private final Integer rowCounter;
 }
