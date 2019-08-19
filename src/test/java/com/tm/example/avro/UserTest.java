@@ -40,7 +40,7 @@ public class UserTest {
 
     //then
     final String expectedJson = String
-        .format("{\"name\":\"%s\",\"favorite_number\":{\"int\":%s},\"favorite_color\":{\"string\":\"%s\"}}",
+        .format("{\"name\":\"%s\",\"favoriteNumber\":{\"int\":%s},\"favoriteColor\":{\"string\":\"%s\"}}",
             user.getName(), user.getFavoriteNumber(), user.getFavoriteColor());
     assertThat(out.toString("UTF-8")).isEqualTo(expectedJson);
   }
@@ -50,7 +50,7 @@ public class UserTest {
     //given
     final User user = createSampleUser();
     final String json = String
-        .format("{\"name\":\"%s\",\"favorite_number\":{\"int\":%s},\"favorite_color\":{\"string\":\"%s\"}}",
+        .format("{\"name\":\"%s\",\"favoriteNumber\":{\"int\":%s},\"favoriteColor\":{\"string\":\"%s\"}}",
             user.getName(), user.getFavoriteNumber(), user.getFavoriteColor());
 
     final DatumReader<User> userDatumReader = new SpecificDatumReader<>(User.getClassSchema());

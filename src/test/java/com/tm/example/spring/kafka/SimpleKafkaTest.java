@@ -19,6 +19,7 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
@@ -31,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @EmbeddedKafka
 @SpringBootConfiguration
+@DirtiesContext
 public class SimpleKafkaTest {
 
   private static final String TOPIC = "domain-events";
@@ -68,6 +70,5 @@ public class SimpleKafkaTest {
     assertThat(singleRecord).isNotNull();
     assertThat(singleRecord.key()).isEqualTo("my-aggregate-id");
     assertThat(singleRecord.value()).isEqualTo("{\"event\":\"Test Event\"}");
-    
   }
 }

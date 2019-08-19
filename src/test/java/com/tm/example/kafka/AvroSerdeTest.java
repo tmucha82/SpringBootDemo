@@ -1,6 +1,5 @@
 package com.tm.example.kafka;
 
-
 import com.tm.example.avro.User;
 import org.junit.Test;
 
@@ -10,7 +9,6 @@ public class AvroSerdeTest {
 
   private AvroSerializer<User> avroSerializer = new AvroSerializer<>();
   private AvroDeserializer<User> avroDeserializer = new AvroDeserializer<>(User.class);
-
 
   @Test
   public void shouldSerializeAndDeserializeAvroObject() {
