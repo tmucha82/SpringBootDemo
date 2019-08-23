@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Value
 @ToString
-class Pnl {
+public class DbMeasureResult {
   private final Integer id;
   private final String name;
   private final String title;

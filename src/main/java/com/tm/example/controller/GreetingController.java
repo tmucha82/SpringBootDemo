@@ -23,16 +23,13 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     private final KafkaTemplate<String, ?> kafkaTemplate;
-    private final PnlProcessor pnlProcessor;
 
-    public GreetingController(KafkaTemplate<String, ?> kafkaTemplate, PnlProcessor pnlProcessor) {
+    public GreetingController(KafkaTemplate<String, ?> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
-        this.pnlProcessor = pnlProcessor;
     }
 
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) throws InterruptedException {
-        pnlProcessor.startProcessing();
         return new Greeting(counter.incrementAndGet(),
                 String.format(template, name));
     }

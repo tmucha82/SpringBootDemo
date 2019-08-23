@@ -25,7 +25,7 @@ public class ClientBean {
   private final SimpleJdbcCall sumCall;
   private final SimpleJdbcCall pnlCall;
 
-  private final Map<String, Pnl> pnlTemplate = Maps.newHashMapWithExpectedSize(1);
+  private final Map<String, DbMeasureResult> pnlTemplate = Maps.newHashMapWithExpectedSize(1);
 
   @Autowired
   public ClientBean(SimpleJdbcCall pnlCall, SimpleJdbcCall sumCall) {
@@ -33,7 +33,6 @@ public class ClientBean {
     this.sumCall = sumCall;
     pnlCall.addDeclaredParameter(new SqlReturnUpdateCount("cout"));
     pnlCall.addDeclaredParameter(new SqlReturnResultSet("rs1", processPnlExtractor()));
-//    pnlCall.addDeclaredParameter(new SqlReturnResultSet("rs1", processPnlHandler()));
   }
 
 
@@ -55,7 +54,7 @@ public class ClientBean {
         .supplyAsync(() -> {
           Map<String, Object> execute = pnlCall.execute(new MapSqlParameterSource());
           log.info("Map = {}", execute);
-          return Pair.of(execute.get("cout"),  ((Pnl) execute.get("rs1")));
+          return Pair.of(execute.get("cout"),  ((DbMeasureResult) execute.get("rs1")));
         })
         .thenAccept(pair -> {
           log.info("Processing notification with {} and {}", pair.getRight(), pair.getLeft());
@@ -63,34 +62,34 @@ public class ClientBean {
         });
   }
 
-  private ResultSetExtractor<Pnl> processPnlExtractor() {
+  private ResultSetExtractor<DbMeasureResult> processPnlExtractor() {
     return rs -> {
-      Pnl pnl = null;
+      DbMeasureResult dbMeasureResult = null;
       while(rs.next()) {
-        if(pnl == null) {
-          pnl = processingPnl(rs);
+        if(dbMeasureResult == null) {
+          dbMeasureResult = processingPnl(rs);
         }
         processingPnl(rs);
       }
-      return pnl;
+      return dbMeasureResult;
     };
   }
 
   RowCallbackHandler processPnlHandler() {
     return rs -> {
-      final Pnl pnl = processingPnl(rs);
-      pnlTemplate.putIfAbsent("pnl", pnl);
+      final DbMeasureResult dbMeasureResult = processingPnl(rs);
+      pnlTemplate.putIfAbsent("pnl", dbMeasureResult);
     };
   }
 
-  private Pnl processingPnl(ResultSet rs) throws SQLException {
-    final Pnl pnl = Pnl.builder()
+  private DbMeasureResult processingPnl(ResultSet rs) throws SQLException {
+    final DbMeasureResult dbMeasureResult = DbMeasureResult.builder()
         .id(rs.getInt("id"))
         .name(rs.getString("name"))
         .title(rs.getString("title"))
         .build();
-    log.info("Processing pnl = {}", pnl);
-    return pnl;
+    log.info("Processing pnl = {}", dbMeasureResult);
+    return dbMeasureResult;
   }
 
   public void findSum() {
