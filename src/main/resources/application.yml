@@ -9,6 +9,26 @@ spring:
 app:
   topic:
     example: example.t
+  measures:
+    Paa:
+      db-procedure: FETCH_PNL
+      publishers:
+        publisher1:
+          data: topic-data
+          notification: topic-notification
+        publisher2:
+          data: topic-data
+          notification: topic-notification
+    Pnl:
+      db-procedure: FETCH_PNL
+      publishers:
+        publisher1:
+          data: topic-data
+          notification: topic-notification
+        publisher2:
+          data: topic-data
+          notification: topic-notification
+
 
 logging:
   level:

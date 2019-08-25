@@ -1,8 +1,11 @@
 package com.tm.example.controller;
 
+import com.tm.example.model.Paa;
 import com.tm.example.service.PnlProcessor;
+import com.tm.example.service.Processor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +25,8 @@ public class GreetingController {
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    private final KafkaTemplate<String, ?> kafkaTemplate;
-
-    public GreetingController(KafkaTemplate<String, ?> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
+    @Autowired
+    private Processor<Paa> paaProcessor;
 
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) throws InterruptedException {
